@@ -22,7 +22,9 @@ function ExecutePython()
     local pythonExe = 'E:\\Projetos\\api-rainmetter-python\\env\\Scripts\\python.exe'
     local trendsScript = 'E:\\Projetos\\api-rainmetter-python\\trends\\trends.py'
 
-    local command = string.format('start /B "" "%s" "%s" > NUL 2>&1', pythonExe, trendsScript)
+    --local command = string.format('start /B "" "%s" "%s" > NUL 2>&1', pythonExe, trendsScript)
+    local command = string.format('powershell -WindowStyle Hidden -Command "& {Start-Process "%s" "%s" -NoNewWindow}"', pythonExe, trendsScript)
+
     os.execute(command)
 
     print("[END] Execute Python")

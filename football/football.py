@@ -4,7 +4,7 @@ import logging
 import pytz
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-
+from googletrans import Translator
 
 load_dotenv()
 
@@ -45,6 +45,7 @@ def request_matches():
     try:
         headers = get_header()
         params = get_match_params()
+        translator = Translator()
 
         logging.info('Enviando requisição para api ...')
         response = requests.get('https://api.football-data.org/v4/matches',
@@ -62,8 +63,8 @@ def request_matches():
             with open("E:\\Projetos\\api-rainmetter-python\\football\\football.txt", "w", encoding="utf-8") as f:
                 for match_data in matches:
                     utc_date   = convert_utc_to_brt(match_data['utcDate'])
-                    home_team  = match_data['homeTeam']['shortName']
-                    away_team  = match_data['awayTeam']['shortName']
+                    home_team  = translator.translate(match_data['homeTeam']['shortName'], src='en', dest='pt').text
+                    away_team  = translator.translate(match_data['awayTeam']['shortName'], src='en', dest='pt').text
                     score_home = match_data['score']['fullTime']['home'] if 'score' in match_data and 'fullTime' in match_data['score'] else None
                     score_away = match_data['score']['fullTime']['away'] if 'score' in match_data and 'fullTime' in match_data['score'] else None
                     
